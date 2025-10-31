@@ -8,14 +8,20 @@ export default {
             imageUrl: '/assets/head1.jpg',
             bgColor: '#f5f5f5',
             textColor: '#333',
-            themes: ['dark', 'light', 'neon'],
+            themes: [
+                { bg: '#333', text: '#fff' },    // dark
+                { bg: '#fff', text: '#000' },    // light
+                { bg: '#39ff14', text: '#000' }  // neon
+            ],
             currentThemeIndex: 0
         }
     },
-    
     methods: {
-        // Add code here
-
+        changeTheme() {
+            this.currentThemeIndex = (this.currentThemeIndex + 1) % this.themes.length;
+            this.bgColor = this.themes[this.currentThemeIndex].bg;
+            this.textColor = this.themes[this.currentThemeIndex].text;
+        }
     }
 }
 </script>
@@ -39,16 +45,14 @@ export default {
             <input id="imageUrl" v-model="imageUrl" placeholder="https://example.com/me.jpg"><br><br>
 
             <label>Theme Presets:</label><br>
-            <button class="theme-button">Cycle theme</button> <!-- click button to cycle through the themes -->
-            <!-- Dark theme: background-color: #333, text-color: #fff -->
-            <!-- Light theme: background-color: #fff, text-color: #000  -->
-            <!-- Neon theme: background-color: #39ff14, text-color: #000 -->
-
+            <button class="theme-button" @click="changeTheme">Cycle theme</button>
         </div>
+
         <!-- Preview Section -->
         <div class="preview-section">
             <h2>Live Preview</h2>
-            <div class="preview-card"> <!-- Add code here to set background color and text color -->
+            <div class="preview-card" 
+                 :style="{ backgroundColor: bgColor, color: textColor }">
                 <img :src="imageUrl" class="preview-img">
                 <h3>{{ name || 'Your Name' }}</h3>
                 <h4>{{ job || 'Job Title' }}</h4>
@@ -93,5 +97,7 @@ export default {
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        background-color: #007bff;
+        color: white;
     }
 </style>
